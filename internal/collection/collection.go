@@ -1,4 +1,4 @@
-package storage
+package collection
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ type CollectionInformation struct {
 	Name string
 }
 
-func CreateCollection(name string) error {
+func Create(name string) error {
 	if collectionExists(name) {
 		return fmt.Errorf("collection '%s' already exists", name)
 	}
@@ -27,7 +27,7 @@ func CreateCollection(name string) error {
 	return nil
 }
 
-func GetCollection(name string) (CollectionInformation, error) {
+func Get(name string) (CollectionInformation, error) {
 	if !collectionExists(name) {
 		return CollectionInformation{}, fmt.Errorf("collection '%s' does not exist", name)
 	}

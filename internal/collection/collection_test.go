@@ -1,4 +1,4 @@
-package storage
+package collection
 
 import (
 	"os"
@@ -9,11 +9,11 @@ import (
 var testCollection = "test"
 
 func cleanup() {
-	os.Remove("test")
+	os.Remove(testCollection)
 }
 
 func TestCreateCollection(t *testing.T) {
-	err := CreateCollection(testCollection)
+	err := Create(testCollection)
 
 	if err != nil {
 		t.Error(err)
@@ -23,8 +23,8 @@ func TestCreateCollection(t *testing.T) {
 }
 
 func TestCreateDuplicateCollection(t *testing.T) {
-	CreateCollection(testCollection)
-	err := CreateCollection(testCollection)
+	Create(testCollection)
+	err := Create(testCollection)
 
 	if err == nil {
 		t.Error("Duplicate collection should return error")
@@ -34,7 +34,7 @@ func TestCreateDuplicateCollection(t *testing.T) {
 }
 
 func TestCreateCollectionInNonExistentRootPath(t *testing.T) {
-	err := CreateCollection(path.Join("long/path", testCollection))
+	err := Create(path.Join("long/path", testCollection))
 
 	if err == nil {
 		t.Error("Creating a collection in a non-existent root path should return error")
@@ -44,18 +44,18 @@ func TestCreateCollectionInNonExistentRootPath(t *testing.T) {
 }
 
 func TestGetCollection(t *testing.T) {
-	CreateCollection(testCollection)
-	_, err := GetCollection(testCollection)
+	Create(testCollection)
+	_, err := Get(testCollection)
 
 	if err != nil {
-		t.Error("Getting non-existent collection should return error")
+		t.Error("Getting existent collection should not return error")
 	}
 
 	cleanup()
 }
 
 func TestGetNonExistentCollection(t *testing.T) {
-	_, err := GetCollection(testCollection)
+	_, err := Get(testCollection)
 
 	if err == nil {
 		t.Error("Getting non-existent collection should return error")
